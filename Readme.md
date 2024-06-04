@@ -52,6 +52,31 @@ Akhil Binoy
     MONGO_URI=mongodb://localhost:27017/rideshare
     JWT_SECRET=
 
+4. Start backend server:
+
+
+    ```sh
+    nodemon
+
+### Frontend Setup
+
+1. Install client dependencies:
+
+   ```sh
+        cd ../client
+        npm install
+
+2. Start the React development server:
+
+   ```sh
+        npm run dev
+
+3. Open your browser and navigate to :
+
+   ```sh
+        http://localhost:3000
+
+
 
 
 
