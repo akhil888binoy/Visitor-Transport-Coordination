@@ -40,10 +40,13 @@ Akhil Binoy
    git clone https://github.com/akhil888binoy/ride-sharing-app.git
    cd ride-sharing-app
 2. Install server dependencies:
- ```sh
-   cd server
-   npm install
+
+    ```sh
+    cd server
+    npm install
 3. Create a .env file in the server directory with the following content:
+
+
     ```sh
     PORT=3001
     MONGO_URI=mongodb://localhost:27017/rideshare
