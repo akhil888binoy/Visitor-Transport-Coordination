@@ -5,6 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import multer from "multer";
 import helmet from "helmet";
+import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
