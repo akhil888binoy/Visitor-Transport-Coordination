@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// This schema includes details about the rides offered by employees.
+// This schema includes details about bookings made by visitors.
 const RideSchema = new mongoose.Schema(
   {
     firstName: {
@@ -19,12 +19,13 @@ const RideSchema = new mongoose.Schema(
       default: " ",
     },
     visitorId: String,
-    availableSeats: Number,
     vehicleType: String,
+    bookingTime: String,
+    status: String,
     departureTime: String,
-    startPoint: string,
-    endPoint: string,
-    pickupPoint: string,
+    startPoint: String,
+    endPoint: String,
+    pickupPoint: String,
   },
   { timestamps: true }
 );

@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema(
     role: String,
     phoneNumber: Number,
     employeeId: String,
-    visitorPassNumber: String,
+    visitorId: String,
   },
   { timestamps: true }
 );

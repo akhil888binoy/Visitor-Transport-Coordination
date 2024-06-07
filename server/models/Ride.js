@@ -22,9 +22,9 @@ const RideSchema = new mongoose.Schema(
     availableSeats: Number,
     vehicleType: String,
     departureTime: String,
-    startPoint: string,
-    endPoint: string,
-    pickupPoint: string,
+    startPoint: String,
+    endPoint: String,
+    pickupPoint: String,
   },
   { timestamps: true }
 );

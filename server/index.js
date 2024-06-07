@@ -7,7 +7,14 @@ import multer from "multer";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import path from "path";
+import { verifyToken } from "./middleware/auth.js";
 import { fileURLToPath } from "url";
+import { register } from "./controllers/auth.js";
+import { createRide } from "./controllers/rides.js";
+import authRoutes from "./routes/auth.js";
+import rideRoutes from "./routes/rides.js";
+// import bookingRoutes from "./routes/bookings.js";
+import userRoutes from "./routes/users.js";
 
 /*CONFIGURATION*/
 const __filename = fileURLToPath(import.meta.url);
@@ -32,6 +39,17 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+
+// ROUTES WITH FILES
+app.post("/auth/register", verifyToken, upload.single("picture"), register);
+app.post("/rides", verifyToken, upload.single("picture"), createRide); //Ride created by employee
+
+/*ROUTES*/
+
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/rides", rideRoutes);
+// app.use("/bookings", bookingRoutes);
 
 /* MONGOOSE SETUP*/
 const PORT = process.env.PORT || 6001;
