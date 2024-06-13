@@ -1,9 +1,29 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import Navbar from '../navbar'
+import { Box , useMediaQuery} from '@mui/material'
+import {Typography} from '@mui/material'
+import MyRideWidget from '../widgets/MyRideWidget'
 
-const OfferRidePage = () => {
+const EventForm = () => {
+    const isNonMobileScreens = useMediaQuery("(min-width:1000px)")
+    const {_id, picturePath} = useSelector((state)=> state.user);
+
   return (
-    <div>OfferRidePage</div>
+    <Box>
+        <Navbar></Navbar>
+        <Box  
+      width={"100%"}
+      padding={"2rem 6%"}
+      display={isNonMobileScreens ? "flex": "block"}
+      gap="1rem"
+      justifyContent={"space-between"}
+      
+      >
+        <MyRideWidget picturePath={picturePath}></MyRideWidget>
+      </Box>
+    </Box>
   )
 }
 
-export default OfferRidePage
+export default EventForm

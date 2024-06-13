@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import crypto from "crypto";
 
+/*REGISTER USER*/
 export const register = async (req, res) => {
   try {
     const {
@@ -11,12 +13,16 @@ export const register = async (req, res) => {
       password,
       picturePath,
       role,
-      phoneNumber,
-      employeeId,
       visitorId,
+      employeeId,
+      phoneNumber,
+      securityQuestion,
+      securityAnswer,
     } = req.body;
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
+    const hashedSecurityAnswer = await bcrypt.hash(securityAnswer, salt);
+
     const newUser = new User({
       firstName,
       lastName,
@@ -26,6 +32,8 @@ export const register = async (req, res) => {
       role,
       employeeId,
       visitorId,
+      securityQuestion,
+      securityAnswer: hashedSecurityAnswer,
       phoneNumber,
     });
     const savedUser = await newUser.save();
@@ -49,5 +57,65 @@ export const login = async (req, res) => {
     res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, securityQuestion: user.securityQuestion });
+  } catch (error) {
+    console.error("Error in verifyEmail:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const resetPasswordSecurity = async (req, res) => {
+  const { email, securityAnswer, password } = req.body;
+
+  if (!email || !securityAnswer || !password) {
+    return res.status(400).json({
+      message: "Email, security answer, and new password are required",
+    });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(securityAnswer, user.securityAnswer);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Incorrect security answer" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    if (!salt) {
+      throw new Error("Failed to generate salt");
+    }
+
+    user.password = await bcrypt.hash(password, salt);
+    if (!user.password) {
+      throw new Error("Failed to hash password");
+    }
+
+    await user.save();
+    res
+      .status(200)
+      .json({ success: true, message: "Password reset successful" });
+  } catch (error) {
+    console.error("Error in resetPasswordSecurity:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

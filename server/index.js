@@ -15,6 +15,10 @@ import authRoutes from "./routes/auth.js";
 import rideRoutes from "./routes/rides.js";
 // import bookingRoutes from "./routes/bookings.js";
 import userRoutes from "./routes/users.js";
+import User from "./models/User.js";
+import Ride from "./models/Ride.js";
+import { users, rides } from "./data/index.js";
+import { verify } from "crypto";
 
 /*CONFIGURATION*/
 const __filename = fileURLToPath(import.meta.url);
@@ -41,7 +45,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ROUTES WITH FILES
-app.post("/auth/register", verifyToken, upload.single("picture"), register);
+app.post("/auth/register", upload.single("picture"), register);
 app.post("/rides", verifyToken, upload.single("picture"), createRide); //Ride created by employee
 
 /*ROUTES*/
@@ -62,5 +66,8 @@ mongoose
     app.listen(PORT, () =>
       console.log(`Server Port : ${PORT} running successfully`)
     );
+    /* ADD DATA ONE TIME*/
+    // User.insertMany(users);
+    // Ride.insertMany(rides);
   })
   .catch((error) => console.log(`${error} did not connect`));

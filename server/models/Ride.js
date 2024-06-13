@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 // This schema includes details about the rides offered by employees.
 const RideSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
     firstName: {
       type: String,
       required: true,
@@ -14,7 +18,7 @@ const RideSchema = new mongoose.Schema(
       min: 2,
       max: 50,
     },
-    picturePath: {
+    userPicturePath: {
       type: String,
       default: " ",
     },
@@ -22,6 +26,7 @@ const RideSchema = new mongoose.Schema(
     availableSeats: Number,
     vehicleType: String,
     departureTime: String,
+    date: String,
     startPoint: String,
     endPoint: String,
     pickupPoint: String,

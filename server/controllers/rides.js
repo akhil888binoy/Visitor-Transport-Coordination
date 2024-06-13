@@ -11,6 +11,7 @@ export const createRide = async (req, res) => {
       departureTime,
       startPoint,
       endPoint,
+      date,
       pickupPoint,
     } = req.body;
     const user = await User.findById(userId);
@@ -26,6 +27,7 @@ export const createRide = async (req, res) => {
       departureTime,
       startPoint,
       endPoint,
+      date,
       pickupPoint,
     });
     await newRide.save();
@@ -46,13 +48,19 @@ export const getFeedRides = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 5;
     const search = req.query.search || "";
     let sort = req.query.sort || "departureTime";
+    let pickupPoint = req.query.pickupPoint || "All";
     const availableSeats = req.query.availableSeats || "";
     const startPoint = req.query.startPoint || "";
     const endPoint = req.query.endPoint || "";
-    const pickupPoint = req.query.pickupPoint || "";
+    const date = req.query.date || "";
 
+    // Fetch distinct themes from the database
+    const pickupPointOptions = await Ride.distinct("pickupPoint");
     // Split and parse the sort parameter
-    sort = sort.split(",");
+    pickupPoint === "All"
+      ? (pickupPoint = [...pickupPointOptions])
+      : (pickupPoint = req.query.pickupPoint.split(","));
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
     let sortBy = {};
     if (sort.length > 1) {
       sortBy[sort[0]] = sort[1];
@@ -61,26 +69,21 @@ export const getFeedRides = async (req, res) => {
     }
 
     // Construct the filter object for MongoDB query
-    let filter = {};
+    let filter = {
+      pickupPoint: { $in: pickupPoint },
+    };
 
     if (availableSeats) {
       filter.availableSeats = { $gte: parseInt(availableSeats, 10) };
+    }
+    if (date) {
+      filter.date = { $regex: date, $options: "i" };
     }
     if (startPoint) {
       filter.startPoint = { $regex: startPoint, $options: "i" };
     }
     if (endPoint) {
       filter.endPoint = { $regex: endPoint, $options: "i" };
-    }
-    if (pickupPoint) {
-      filter.pickupPoint = { $regex: pickupPoint, $options: "i" };
-    }
-    if (search) {
-      filter.$or = [
-        { startPoint: { $regex: search, $options: "i" } },
-        { endPoint: { $regex: search, $options: "i" } },
-        { pickupPoint: { $regex: search, $options: "i" } },
-      ];
     }
 
     // Query rides with search, filter, sorting, and pagination
@@ -98,9 +101,9 @@ export const getFeedRides = async (req, res) => {
       total,
       page: page + 1,
       limit,
+      pickupPoint: pickupPointOptions,
       rides,
     };
-
     res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err.message });
