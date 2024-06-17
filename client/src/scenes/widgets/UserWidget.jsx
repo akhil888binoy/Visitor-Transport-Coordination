@@ -25,6 +25,7 @@ import {
     const { palette } = useTheme();
     const navigate = useNavigate();
     const token = useSelector((state) => state.token);
+    const Role = useSelector((state) => state.user.role);
     const loggedInUserId = useSelector((state) => state.user._id); // Assuming you have a way to get the logged-in user's ID
     const dark = palette.neutral.dark;
     const medium = palette.neutral.medium;
@@ -172,22 +173,25 @@ import {
               />
             )}
           </Box>
-
-          <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
-            <Fingerprint fontSize="large" sx={{ color: main }} ></Fingerprint>
-            {!editMode ? (
-              <Typography color={medium}>{employeeId}</Typography>
-            ) : (
-              <TextField
-                name="employeeId"
-                label="Employee ID"
-                value={employeeId}
-                onChange={handleChange}
-              />
+            {Role=='employee' && (
+               <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+               <Fingerprint fontSize="large" sx={{ color: main }} ></Fingerprint>
+               {!editMode ? (
+                 <Typography color={medium}>{employeeId}</Typography>
+               ) : (
+                 <TextField
+                   name="employeeId"
+                   label="Employee ID"
+                   value={employeeId}
+                   onChange={handleChange}
+                 />
+               )}
+             </Box>
             )}
-          </Box>
-          
-          <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+         
+          {Role=='visitor'&&(
+            <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
+            <Fingerprint fontSize="large" sx={{ color: main }} ></Fingerprint>
             {!editMode ? (
               <Typography color={medium}>{visitorId}</Typography>
             ) : (
@@ -199,9 +203,10 @@ import {
               />
             )}
           </Box>
+          )}
+          
           
         </Box>
-        <Divider />
       </WidgetWrapper>
     );
   };

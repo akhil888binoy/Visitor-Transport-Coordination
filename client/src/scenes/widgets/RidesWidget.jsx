@@ -15,6 +15,7 @@ const RidesWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const rides = useSelector((state) => state.rides);
   const token = useSelector((state) => state.token);
+  const firstName = useSelector((state)=> state.user.firstName);
   const [sort, setSort] = useState(JSON.parse(localStorage.getItem("rideSort")) || { sort: "departureTime", order: "desc" });
   const [filterPickupPoint, setFilterPickupPoint] = useState(JSON.parse(localStorage.getItem("rideFilterPickupPoint")) || []);
   const [filterAvailableSeats, setFilterAvailableSeats] = useState(JSON.parse(localStorage.getItem("rideFilterAvailableSeats")) || "");
@@ -137,7 +138,10 @@ const RidesWidget = ({ userId, isProfile = false }) => {
           <Sort sort={sort} setSort={handleSortChange} />
           </Box>
           <Box textAlign={"center"}>
-            <Typography fontSize={isNonMobile? "3rem" : "3rem"} color={"primary"} fontWeight={"bold"}> BookMyLift </Typography>
+            
+            <Typography fontSize={isNonMobile? "2rem" : "1rem"} color={"primary"} > Welcome !  </Typography>
+            <Typography fontSize={isNonMobile? "3rem" : "2rem"} color={"primary"} fontWeight={"bold"} >{firstName} </Typography>
+
           </Box>
         
 
@@ -172,9 +176,12 @@ const RidesWidget = ({ userId, isProfile = false }) => {
           setFilterPickupPoint={handleFilterPickupPointChange}
         />
         </Box>
+        <Box mt={2}>
         <Button variant="outlined" onClick={clearFilters}>
             <Typography fontSize={"1rem"}>  Clear Filters</Typography>
           </Button>
+        </Box>
+        
       </Box>
       {/* Ride Listings */}
       <Box>

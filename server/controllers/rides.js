@@ -131,41 +131,41 @@ export const getUserRides = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 5;
     const search = req.query.search || "";
     let sort = req.query.sort || "departureTime";
+    let pickupPoint = req.query.pickupPoint || "All";
     const availableSeats = req.query.availableSeats || "";
     const startPoint = req.query.startPoint || "";
     const endPoint = req.query.endPoint || "";
-    const pickupPoint = req.query.pickupPoint || "";
-
+    const date = req.query.date || "";
+    // Fetch distinct themes from the database
+    const pickupPointOptions = await Ride.distinct("pickupPoint");
     // Split and parse the sort parameter
-    sort = sort.split(",");
+    pickupPoint === "All"
+      ? (pickupPoint = [...pickupPointOptions])
+      : (pickupPoint = req.query.pickupPoint.split(","));
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
     let sortBy = {};
     if (sort.length > 1) {
       sortBy[sort[0]] = sort[1];
     } else {
       sortBy[sort[0]] = "asc";
     }
-
     // Construct the filter object for MongoDB query
-    let filter = { userId: userId };
+    let filter = {
+      pickupPoint: { $in: pickupPoint },
+      userId: userId,
+    };
 
     if (availableSeats) {
       filter.availableSeats = { $gte: parseInt(availableSeats, 10) };
+    }
+    if (date) {
+      filter.date = { $regex: date, $options: "i" };
     }
     if (startPoint) {
       filter.startPoint = { $regex: startPoint, $options: "i" };
     }
     if (endPoint) {
       filter.endPoint = { $regex: endPoint, $options: "i" };
-    }
-    if (pickupPoint) {
-      filter.pickupPoint = { $regex: pickupPoint, $options: "i" };
-    }
-    if (search) {
-      filter.$or = [
-        { startPoint: { $regex: search, $options: "i" } },
-        { endPoint: { $regex: search, $options: "i" } },
-        { pickupPoint: { $regex: search, $options: "i" } },
-      ];
     }
 
     // Query rides with search, filter, sorting, and pagination
@@ -183,10 +183,9 @@ export const getUserRides = async (req, res) => {
       total,
       page: page + 1,
       limit,
+      pickupPoint: pickupPointOptions,
       rides,
     };
-
-    // Send response
     res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -250,5 +249,31 @@ export const updateRide = async (req, res) => {
       .json({ message: "Ride details updated successfully", ride });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+/* UPDATE */
+export const BookRide = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+    const ride = await Ride.findById(id);
+    const isBooked = post.bookings.get(userId);
+
+    if (isBooked) {
+      ride.bookings.delete(userId);
+    } else {
+      ride.bookings.set(userId, true);
+    }
+
+    const updatedRide = await Ride.findByIdAndUpdate(
+      id,
+      { bookings: ride.bookings },
+      { new: true }
+    );
+
+    res.status(200).json(updatedRide);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 };
