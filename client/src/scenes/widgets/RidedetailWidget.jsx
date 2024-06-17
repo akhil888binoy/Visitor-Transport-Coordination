@@ -37,8 +37,15 @@ const RidedetailWidget = ({rideId , rideUserId, date, pickupPoint, employeeId, a
       },
       body: JSON.stringify({ userId: loggedInUserId }),
     });
+    if (response.status === 400) {
+      // Backend returned a "No available seats" message
+      const data = await response.json();
+      alert(data.message);
+      return;
+    }
     const updatedRide = await response.json();
     dispatch(setRide({ ride: updatedRide }));
+    
   };
   
   return (
@@ -55,12 +62,12 @@ const RidedetailWidget = ({rideId , rideUserId, date, pickupPoint, employeeId, a
             <Typography>End Point : {endPoint}</Typography>
             <Typography> Available Seats : {availableSeats}</Typography>
           </Box> 
-          <FlexBetween gap="0.3rem">
-          <Button onClick={patchRide}>
-      {isBooked ? "Booked": "Wanna book"}
+          <FlexBetween gap="0.3rem" mt={"1rem"}>
+          <Button  onClick={patchRide} variant={isBooked? "contained": "outlined"} color={isBooked? "error": "primary"}>
+      {isBooked ? "Cancel Ride": "Book Ride"}
     </Button>
-            <Typography>{bookingCount}</Typography>
           </FlexBetween>
+          <Typography mt={"1rem"}> Bookings for this ride :{bookingCount}</Typography>
 
         </WidgetWrapper>
               
