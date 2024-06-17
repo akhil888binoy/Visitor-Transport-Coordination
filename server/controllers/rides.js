@@ -29,6 +29,7 @@ export const createRide = async (req, res) => {
       endPoint,
       date,
       pickupPoint,
+      bookings: {},
     });
     await newRide.save();
 
@@ -258,7 +259,7 @@ export const BookRide = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.body;
     const ride = await Ride.findById(id);
-    const isBooked = post.bookings.get(userId);
+    const isBooked = ride.bookings.get(userId);
 
     if (isBooked) {
       ride.bookings.delete(userId);

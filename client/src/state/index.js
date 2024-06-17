@@ -32,7 +32,9 @@ export const authSlice = createSlice({
         if (ride._id === action.payload.ride._id) return action.payload.ride;
         return ride;
       });
-      state.rides = updatedRides;
+
+      state.rides.rides = updatedRides;
+      console.log(state.rides.rides);
     },
   },
 });
