@@ -16,7 +16,7 @@ const router = express.Router();
 router.get("/", getFeedRides);
 router.get("/:userId/rides", getUserRides);
 router.get("/:rideId/ride", getRideDetails);
-router.get("/:userId/rides", getBookedRides);
+router.get("/:userId/bookedrides", getBookedRides);
 
 /*UPDATE*/
 router.patch("/:rideId/update", verifyToken, updateRide); // Define the update route

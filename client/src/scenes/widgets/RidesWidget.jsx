@@ -11,10 +11,11 @@ import { Box } from "@mui/material";
 import CustomPagination from "../../components/CustomPagination";
 
 
-const RidesWidget = ({ userId, isProfile = false }) => {
+const RidesWidget = ({ userId, isProfile = false , isBookedRides=false }) => {
   const dispatch = useDispatch();
   const rides = useSelector((state) => state.rides);
   const token = useSelector((state) => state.token);
+  const Role = useSelector((state)=> state.user.role);
   const firstName = useSelector((state)=> state.user.firstName);
   const [sort, setSort] = useState(JSON.parse(localStorage.getItem("rideSort")) || { sort: "departureTime", order: "desc" });
   const [filterPickupPoint, setFilterPickupPoint] = useState(JSON.parse(localStorage.getItem("rideFilterPickupPoint")) || []);
@@ -77,11 +78,27 @@ const RidesWidget = ({ userId, isProfile = false }) => {
       const data = await response.json();
       dispatch(setRides({ rides: data }));
     };
+
+    const getBookedRides = async () => {
+      const filterPickupPointString = filterPickupPoint.join(",");
+      const response = await fetch(
+        `http://localhost:3001/rides/${userId}/bookedrides?page=${page}&sort=${sort.sort},${sort.order}&pickupPoint=${filterPickupPointString}&search=${search}&availableSeats=${filterAvailableSeats}&startPoint=${filterStartingPoint}&endPoint=${filterEndPoint}&date=${filterDate}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await response.json();
+      dispatch(setRides({ rides: data }));
+    };
   
     if (isProfile) {
       getUserRides();
       
-    } else {
+    } else if(isBookedRides){
+      getBookedRides();
+    }
+     else {
       getRides();
     }
   }, [sort, filterPickupPoint, filterAvailableSeats, filterStartingPoint, filterEndPoint, filterDate, page, search, userId, isProfile, token]);
@@ -181,7 +198,12 @@ const RidesWidget = ({ userId, isProfile = false }) => {
             <Typography fontSize={"1rem"}>  Clear Filters</Typography>
           </Button>
         </Box>
-        
+      { Role === "employee" ? (
+          <Typography mt={"1rem"} fontSize={isNonMobile? "3rem" : "1rem"} color={"primary"} > Your Rides </Typography>
+      ):(
+        <Typography mt={"1rem"} fontSize={isNonMobile? "3rem" : "1rem"} color={"primary"} > Rides For You </Typography>
+      )}
+
       </Box>
       {/* Ride Listings */}
       <Box>

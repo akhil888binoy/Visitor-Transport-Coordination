@@ -14,6 +14,7 @@ import {useMediaQuery} from "@mui/material";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Category, Language, LocalActivity, LocationOn, Star } from "@mui/icons-material";
 import { setRide } from "../../state";
+import BookedUserWidget from "./BookedUserWidget";
 const RidedetailWidget = ({rideId , rideUserId, date, pickupPoint, employeeId, availableSeats, vehicleType, userPicturePath, departureTime, startPoint, endPoint, bookings}) => {
   const dispatch = useDispatch();
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -23,6 +24,8 @@ const RidedetailWidget = ({rideId , rideUserId, date, pickupPoint, employeeId, a
   const loggedInUserId = useSelector((state) => state.user._id);
   const isBooked = Boolean(bookings[loggedInUserId]);
   const bookingCount = Object.keys(bookings).length;
+  const userIds = Object.keys(bookings);
+
   // Function to handle edit button click
   const handleEditRide = () => {
     // Redirect to edit form with event ID as URL parameter
@@ -49,7 +52,8 @@ const RidedetailWidget = ({rideId , rideUserId, date, pickupPoint, employeeId, a
   };
   
   return (
-        <WidgetWrapper mt={"2rem"} width={"60%"}>
+    <>
+    <WidgetWrapper mt={"2rem"} width={"60%"}>
           <UserImage image={userPicturePath}>
           </UserImage>
           <Box >
@@ -62,14 +66,34 @@ const RidedetailWidget = ({rideId , rideUserId, date, pickupPoint, employeeId, a
             <Typography>End Point : {endPoint}</Typography>
             <Typography> Available Seats : {availableSeats}</Typography>
           </Box> 
-          <FlexBetween gap="0.3rem" mt={"1rem"}>
-          <Button  onClick={patchRide} variant={isBooked? "contained": "outlined"} color={isBooked? "error": "primary"}>
-      {isBooked ? "Cancel Ride": "Book Ride"}
-    </Button>
-          </FlexBetween>
-          <Typography mt={"1rem"}> Bookings for this ride :{bookingCount}</Typography>
+          {role === "visitor" && (
+            <>
+              <FlexBetween gap="0.3rem" mt={"1rem"}>
+              <Button  onClick={patchRide} variant={isBooked? "contained": "outlined"} color={isBooked? "error": "primary"}>
+          {isBooked ? "Cancel Ride": "Book Ride"}
+        </Button>
+              </FlexBetween>
+            </>  
+          )}
+          <Typography mt={"1rem"}> Bookings for this ride : {bookingCount}</Typography>
+
+         
+
 
         </WidgetWrapper>
+          {role === "employee" && (
+            <>
+            <Typography mt={"1rem"} fontSize={isNonMobile? "2rem" : "1rem"} color={"primary"} > Visitors Booked this Ride : </Typography>
+            {userIds.map((userId) => (
+              <Box key={userId} mt={"1rem"}>
+               <BookedUserWidget key={userId} userId={userId} ></BookedUserWidget>
+              </Box> 
+            ))}
+            </>
+          )}
+          
+    </>
+        
               
   )
 }

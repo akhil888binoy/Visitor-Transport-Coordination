@@ -19,7 +19,7 @@ import {
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
   
-  const UserWidget = ({ userId, picturePath }) => {
+  const BookedUserWidget = ({ userId}) => {
     const [user, setUser] = useState(null);
     const [editMode, setEditMode] = useState(false); // State to toggle edit mode
     const { palette } = useTheme();
@@ -79,15 +79,15 @@ import {
     const {
       firstName,
       lastName,
+      picturePath,
       role,
       email,
       visitorId,
       phoneNumber,
-      employeeId,
     } = user;
   
     return (
-      <WidgetWrapper>
+      <WidgetWrapper width={"30%"} >
         {/* FIRST ROW */}
         <FlexBetween
           gap="0.5rem"
@@ -173,23 +173,8 @@ import {
               />
             )}
           </Box>
-            {Role=='employee' && (
-               <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
-               <Fingerprint fontSize="large" sx={{ color: main }} ></Fingerprint>
-               {!editMode ? (
-                 <Typography color={medium}>{employeeId}</Typography>
-               ) : (
-                 <TextField
-                   name="employeeId"
-                   label="Employee ID"
-                   value={employeeId}
-                   onChange={handleChange}
-                 />
-               )}
-             </Box>
-            )}
          
-          {Role=='visitor'&&(
+          
             <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
             <Fingerprint fontSize="large" sx={{ color: main }} ></Fingerprint>
             {!editMode ? (
@@ -203,12 +188,9 @@ import {
               />
             )}
           </Box>
-          )}
-          
-          
         </Box>
       </WidgetWrapper>
     );
   };
   
-  export default UserWidget;
+  export default BookedUserWidget;

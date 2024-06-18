@@ -42,7 +42,7 @@ const RideWidget =({
     const loggedInUserId = useSelector((state) => state.user._id);
     const navigate = useNavigate();
     const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-    const {_id, picturePath} = useSelector((state)=> state.user);
+    const {_id, picturePath, role} = useSelector((state)=> state.user);
 
     const { palette } = useTheme();
     const main = palette.neutral.main;
