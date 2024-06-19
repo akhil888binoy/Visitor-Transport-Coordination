@@ -22,6 +22,7 @@ This is a ride-sharing web application designed for a steel plant. The applicati
 
 ## Contributors
 Akhil Binoy
+D Pavan Sai Trinadh
 
 ## Setup Instructions
 
