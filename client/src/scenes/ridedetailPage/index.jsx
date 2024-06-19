@@ -23,7 +23,7 @@ const RideDetailPage = () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    dispatch(setRide(data));
+    dispatch(setRide({ ride: data }));
   };
 
   useEffect(() => {

@@ -17,8 +17,7 @@ const HomePage = () => {
       width={"100%"}
       padding={"2rem 6%"}
       display={isNonMobileScreens ? "flex": "block"}
-      
-      justifyContent={"space-between"}
+      gap={"5rem"}
 
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
@@ -32,11 +31,20 @@ const HomePage = () => {
             >
           <Link to="/employee/offerridePage" >
         <Button 
-        
-          variant="outlined"
-          color="primary"
-          size="large"
-          sx={{ fontSize: '1.25rem', padding: '12px 24px' }} // Adjust size here
+         variant="outlined"
+         size="large"
+         sx={{ 
+           fontSize: '1.25rem', // Change font size here
+           padding: '12px 24px',
+           color:"#834bff",
+           borderColor:"#834bff"  ,
+           '&:hover': {
+             color: '#fff', // Change text color on hover
+             backgroundColor: '#834bff', // Change background color on hover
+             borderColor: '#834bff', // Change border color on hover
+           },       
+         }}
+         // Adjust size here
         >
           Add your Ride
         </Button>

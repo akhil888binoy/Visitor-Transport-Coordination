@@ -95,11 +95,22 @@ const MyRideWidget = ({picturePath}) => {
     <WidgetWrapper width={isNonMobileScreens? "50%" : "100%"}>
     <Box display={"flex"} justifyContent="center" alignItems="center" gap={5}  >
         <UserImage image={picturePath}></UserImage>
-        <Typography  fontSize={"3rem"}>Ride Form</Typography>
+        <Typography  fontSize={"3rem"} color={"#834bff"}>Ride Form</Typography>
     </Box>
    
     <Box mt={2} display="flex" alignItems="center"  marginBottom="1rem" >
-      <EventSeat color="primary" fontSize="large" />
+    <Box
+      sx={{
+        backgroundColor: '#834bff',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        padding: '0.5rem',
+      }}
+    >
+            <EventSeat  fontSize="large" />
+    </Box>
       <InputBase
       multiline
         placeholder="write down Available seats"
@@ -118,7 +129,19 @@ const MyRideWidget = ({picturePath}) => {
     </Box>
 
     <Box mt={2} display="flex" alignItems="center"  marginBottom="1rem" >
-      <DirectionsCar color="primary" fontSize="large" />
+    <Box
+      sx={{
+        backgroundColor: '#834bff',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        padding: '0.5rem',
+      }}
+    >
+            <DirectionsCar color="#834bff" fontSize="large" />
+    </Box>
+
       <InputBase
       multiline
         placeholder="write down Vehicle Type"
@@ -136,7 +159,18 @@ const MyRideWidget = ({picturePath}) => {
     </Box>
     
     <Box mt={2} display="flex" alignItems="center" marginBottom="1rem">
-  <InsertInvitation  fontSize="large" />
+    <Box
+      sx={{
+        backgroundColor: '#834bff',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        padding: '0.5rem',
+      }}
+    >
+        <InsertInvitation  fontSize="large" />
+    </Box>
   <Box ml={4}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -162,27 +196,21 @@ const MyRideWidget = ({picturePath}) => {
 </Box>
 
          
-       {/* <MobileTimePicker  value={departureTime}/>
-      <AccessTime color="primary" fontSize="large" />
-      <InputBase
-      multiline
-        placeholder="write down Departure Time"
-        onChange={(e) => setDepartureTime(e.target.value)}
-        value={departureTime}
-        sx={{
-          width: '100%',
-          backgroundColor: palette.neutral.light,
-          borderRadius: '2rem',
-          padding: '1rem 2rem',
-          marginLeft: '1rem', // Add margin to create space between the icon and the input
-        }}
-      />
-     */}
 
 <Box display="flex" alignItems="center" marginBottom="1rem">
 <LocalizationProvider dateAdapter={AdapterDateFns}>
-<AccessTime color="primary" fontSize="large" />
-
+<Box
+      sx={{
+        backgroundColor: '#834bff',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        padding: '0.5rem',
+      }}
+    >
+      <AccessTime fontSize="large" />
+    </Box>
       <MobileTimePicker
         label="Select Departure Time"
         value={departureTime}
@@ -197,7 +225,18 @@ const MyRideWidget = ({picturePath}) => {
    
        
         <Box display="flex" alignItems="center" marginBottom="1rem">
-      <AddLocation color="primary" fontSize="large" />
+        <Box
+      sx={{
+        backgroundColor: '#834bff',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        padding: '0.5rem',
+      }}
+    >       <AddLocation color="#834bff" fontSize="large" />
+
+    </Box>
       <TextField
       multiline
       fullWidth
@@ -212,7 +251,19 @@ const MyRideWidget = ({picturePath}) => {
     </Box>
     
     <Box display="flex" alignItems="center" marginBottom="1rem">
-      <LocationOn color="primary" fontSize="large" />
+    <Box
+      sx={{
+        backgroundColor: '#834bff',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        padding: '0.5rem',
+      }}
+    >
+            <LocationOn color="#834bff" fontSize="large" />
+
+    </Box>
       <TextField
       multiline
       fullWidth
@@ -225,7 +276,19 @@ const MyRideWidget = ({picturePath}) => {
     </Box>
          
     <Box display="flex" alignItems="center" marginBottom="1rem">
-  <PersonPinCircle color="primary" fontSize="large" />
+    <Box
+      sx={{
+        backgroundColor: '#834bff',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        padding: '0.5rem',
+      }}
+    >
+        <PersonPinCircle color="#834bff" fontSize="large" />
+
+    </Box>
   <TextField
     fullWidth
     multiline
@@ -254,7 +317,7 @@ const MyRideWidget = ({picturePath}) => {
           onClick={handleRide}
           sx={{
             color: palette.background.alt,
-            backgroundColor: palette.primary.main,
+            backgroundColor: "#834bff",
             borderRadius: "3rem",
           }}
         >

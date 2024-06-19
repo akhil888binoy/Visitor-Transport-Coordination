@@ -155,10 +155,21 @@ const RidesWidget = ({ userId, isProfile = false , isBookedRides=false }) => {
           <Sort sort={sort} setSort={handleSortChange} />
           </Box>
           <Box textAlign={"center"}>
+            {Role == "visitor" ? (
+              <>
+               <Typography fontSize={isNonMobile? "2rem" : "1rem"} color={"primary"} > Welcome !  </Typography>
+                 <Typography fontSize={isNonMobile? "3rem" : "2rem"} color={"primary"} fontWeight={"bold"} >{firstName} </Typography>
+              </>
+                
+            ):(
+              <>
+              <Typography fontSize={isNonMobile? "2rem" : "1rem"} color={"#834bff"} > Welcome !  </Typography>
+              <Typography fontSize={isNonMobile? "3rem" : "2rem"} color={"#834bff"} fontWeight={"bold"} >{firstName} </Typography>
             
-            <Typography fontSize={isNonMobile? "2rem" : "1rem"} color={"primary"} > Welcome !  </Typography>
-            <Typography fontSize={isNonMobile? "3rem" : "2rem"} color={"primary"} fontWeight={"bold"} >{firstName} </Typography>
-
+              </>
+              
+            )}
+           
           </Box>
         
 
@@ -194,12 +205,32 @@ const RidesWidget = ({ userId, isProfile = false , isBookedRides=false }) => {
         />
         </Box>
         <Box mt={2}>
-        <Button variant="outlined" onClick={clearFilters}>
-            <Typography fontSize={"1rem"}>  Clear Filters</Typography>
-          </Button>
+        { Role==="visitor" ? (
+           <Button variant="outlined" onClick={clearFilters}>
+           <Typography fontSize={"1rem"}>  Clear Filters</Typography>
+         </Button>
+        ):(
+          <Button  variant="outlined"
+          sx={{ 
+            fontSize: '1.25rem', // Change font size here
+            padding: '12px 24px',
+            color:"#834bff",
+            borderColor:"#834bff"  ,
+            '&:hover': {
+              color: '#fff', // Change text color on hover
+              backgroundColor: '#834bff', // Change background color on hover
+              borderColor: '#834bff', // Change border color on hover
+            },       
+          }} onClick={clearFilters}>
+              <Typography fontSize={"1rem"}>  Clear Filters</Typography>
+            </Button>
+        )}
+       
+
+         
         </Box>
       { Role === "employee" ? (
-          <Typography mt={"1rem"} fontSize={isNonMobile? "3rem" : "1rem"} color={"primary"} > Your Rides </Typography>
+          <Typography mt={"1rem"} fontSize={isNonMobile? "3rem" : "1rem"} color={"#834bff"} > Your Rides </Typography>
       ):(
         <Typography mt={"1rem"} fontSize={isNonMobile? "3rem" : "1rem"} color={"primary"} > Rides For You </Typography>
       )}
@@ -223,7 +254,8 @@ const RidesWidget = ({ userId, isProfile = false , isBookedRides=false }) => {
               departureTime,
               startPoint,
               endPoint,
-              pickupPoint
+              pickupPoint,
+              bookings
             }) => (
               <RideWidget
                 key={_id}
@@ -240,6 +272,7 @@ const RidesWidget = ({ userId, isProfile = false , isBookedRides=false }) => {
                 departureTime={departureTime}
                 startPoint={startPoint}
                 endPoint={endPoint}
+                bookings={bookings}
               />
             )
           )}

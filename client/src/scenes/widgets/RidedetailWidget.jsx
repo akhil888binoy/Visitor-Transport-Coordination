@@ -83,7 +83,7 @@ const RidedetailWidget = ({rideId , rideUserId, date, pickupPoint, employeeId, a
         </WidgetWrapper>
           {role === "employee" && (
             <>
-            <Typography mt={"1rem"} fontSize={isNonMobile? "2rem" : "1rem"} color={"primary"} > Visitors Booked this Ride : </Typography>
+            <Typography mt={"1rem"} fontSize={isNonMobile? "2rem" : "1rem"} color={"#834bff"} > Visitors Booked this Ride : </Typography>
             {userIds.map((userId) => (
               <Box key={userId} mt={"1rem"}>
                <BookedUserWidget key={userId} userId={userId} ></BookedUserWidget>

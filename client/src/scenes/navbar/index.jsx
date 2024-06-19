@@ -30,6 +30,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const Role = useSelector((state)=> state.user.role);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -47,7 +48,7 @@ const Navbar = () => {
         <Typography
           fontWeight="bold"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
-          color="primary"
+          color={Role === "visitor" ? "primary" : "#834bff"}
           onClick={() => navigate("/home")}
           sx={{
             "&:hover": {

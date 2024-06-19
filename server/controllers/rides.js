@@ -254,7 +254,7 @@ export const updateRide = async (req, res) => {
 };
 
 /* UPDATE */
-/* UPDATE */
+
 export const BookRide = async (req, res) => {
   try {
     const { id } = req.params;

@@ -34,7 +34,8 @@ const RideWidget =({
   userPicturePath,
   departureTime,
   startPoint,
-  endPoint,             
+  endPoint,
+  bookings             
 })=>{
     
     const dispatch = useDispatch();
@@ -42,7 +43,8 @@ const RideWidget =({
     const loggedInUserId = useSelector((state) => state.user._id);
     const navigate = useNavigate();
     const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-    const {_id, picturePath, role} = useSelector((state)=> state.user);
+    const {role} = useSelector((state)=> state.user);
+    const bookingCount = Object.keys(bookings).length;
 
     const { palette } = useTheme();
     const main = palette.neutral.main;
@@ -59,7 +61,6 @@ const RideWidget =({
         });
         const result = await response.json();
         dispatch(setRide({ ride: result }));
-        navigate('/deletePage');
 
        
     };
@@ -73,7 +74,29 @@ const RideWidget =({
                       image={userPicturePath}
                     />
                 )}
+           
+
                 <Box display={"block"} justifyContent="space-between" alignItems="center" width="100%" mt={"1rem"} gap={  1 }>
+                {role === "employee" && bookingCount > 0 && (
+                    
+                    <Box sx={{
+                        borderRadius: "2rem",
+                        bgcolor: "#834bff",
+                        padding: "0.5rem 1rem",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        overflow: "hidden",
+                        border:"0.1rem solid  #1E1E1E",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+                    }}>
+                        <Typography color="white" variant="subtitle1">
+                        {bookingCount} New bookings
+                        </Typography>
+                    </Box>
+                    )}
                 <Box style={{
                     borderRadius: "2rem",
                     padding: "0.5rem 1rem",
@@ -100,9 +123,10 @@ const RideWidget =({
                     textOverflow: "ellipsis",
                 }} >
                     <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                      Seats :{availableSeats}
+                      Seats : {availableSeats}
                     </Typography>
                 </Box>
+                
                     <Box style={{
                     borderRadius: "2rem",
                     padding: "0.5rem 1rem",
@@ -159,10 +183,6 @@ const RideWidget =({
                        Employee Id: {employeeId}
                     </Typography>
                 </Box>
-                </Box>
-            </Box>
-            <Box display="flex" justifyContent="space-between" mt="1rem" gap={2}>
-                
                 <Box style={{
                     borderRadius: "2rem",
                     padding: "0.5rem 1rem",
@@ -177,6 +197,7 @@ const RideWidget =({
                       Employee Name : {employeename}
                     </Typography>
                 </Box>
+                
                 <Box style={{
                     borderRadius: "2rem",
                     padding: "0.5rem 1rem",
@@ -191,6 +212,11 @@ const RideWidget =({
                       End Point : {endPoint}
                     </Typography>
                 </Box>
+                </Box>
+            </Box>
+            <Box display="flex" justifyContent="space-between" mt="1rem" gap={2}>
+                
+              
                 <Box style={{
                     borderRadius: "2rem",
                     padding: "0.5rem 1rem",
@@ -206,26 +232,53 @@ const RideWidget =({
                     </Typography>
                 </Box>
                 { rideUserId === loggedInUserId && (
+                    <>
                     <Button 
                     size="small"
-                        variant="outlined" 
-                        style={{
-                            borderRadius: 6,
-                            padding: "0.5rem 1rem",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }} 
+                        variant="contained" 
+                        success
+                       color="error"
                         onClick={deleteRide}
-                    >
-                        <Typography color="primary" fontSize={isNonMobileScreens ? "1rem" : "0.8rem"} >
-                           <DeleteIcon></DeleteIcon>
-                        </Typography>
+                    > Delete Ride 
                     </Button>
+
+                    <Button 
+                    size="small"
+                        variant="contained" 
+                        success
+                    color="success"
+                        onClick={deleteRide}
+                    > Ride Done 
+                    </Button>
+                    </>
+                    
                 )}
                 
             </Box>
             <Box mt={3} >
-            <Button 
+                {role === "employee" ? (
+                    <Button 
+                    variant="contained" 
+                    style={{
+                        borderRadius: 6,
+                        padding: "0.5rem 1rem",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "100%",
+                        size:"small",
+                        backgroundColor: "#834bff", // Change background color here
+                        
+                    }} 
+                    onClick={() => navigate(`/rides/${rideId}/ride`)}
+      
+                >
+                    <Typography color="white" fontSize={isNonMobileScreens ? "1rem" : "0.8rem"} >
+                        Details
+                    </Typography>
+                </Button>
+                ):(
+                    <Button 
+                
                     variant="contained" 
                     style={{
                         borderRadius: 6,
@@ -242,6 +295,9 @@ const RideWidget =({
                     </Typography>
                 </Button>
             
+                )}
+            
+           
             </Box>
             
         </WidgetWrapper>  

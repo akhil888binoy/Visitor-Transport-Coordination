@@ -34,6 +34,7 @@ export const authSlice = createSlice({
       });
 
       state.rides.rides = updatedRides;
+      console.log(updatedRides);
     },
   },
 });
