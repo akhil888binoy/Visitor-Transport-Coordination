@@ -22,6 +22,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { format } from "date-fns";
 
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 
 
 const MyRideWidget = ({picturePath}) => {
@@ -64,7 +65,7 @@ const MyRideWidget = ({picturePath}) => {
         formData.append("availableSeats", availableSeats);
         formData.append("vehicleType", vehicleType);
         formData.append('date', format(date, 'iiii, MMMM dd, yyyy'));
-        formData.append("departureTime", departureTime);
+        formData.append("departureTime", format(departureTime,'hh:mm a'));
         formData.append("startPoint", startPoint);
         formData.append("endPoint", endPoint);
         formData.append("pickupPoint", pickupPoint);
@@ -161,7 +162,7 @@ const MyRideWidget = ({picturePath}) => {
 </Box>
 
          
-       <Box display="flex" alignItems="center" marginBottom="1rem">
+       {/* <MobileTimePicker  value={departureTime}/>
       <AccessTime color="primary" fontSize="large" />
       <InputBase
       multiline
@@ -176,7 +177,24 @@ const MyRideWidget = ({picturePath}) => {
           marginLeft: '1rem', // Add margin to create space between the icon and the input
         }}
       />
-    </Box>
+     */}
+
+<Box display="flex" alignItems="center" marginBottom="1rem">
+<LocalizationProvider dateAdapter={AdapterDateFns}>
+<AccessTime color="primary" fontSize="large" />
+
+      <MobileTimePicker
+        label="Select Departure Time"
+        value={departureTime}
+        onChange={(newValue) => {
+          setDepartureTime(newValue);
+        }}
+        sx={{ marginLeft: '2rem'}}
+        renderInput={(params) => <TextField {...params} sx={{ marginLeft: '2rem' }} />}
+      />
+    </LocalizationProvider>   
+</Box>
+   
        
         <Box display="flex" alignItems="center" marginBottom="1rem">
       <AddLocation color="primary" fontSize="large" />

@@ -15,6 +15,7 @@ import OfferRidePage from "./scenes/offerridePage";
 import RideBookingPage from "./scenes/rideBookingPage";
 import Footer from "./scenes/footer";
 import Navbar from "./scenes/navbar";
+import RideDetailPage from "./scenes/ridedetailPage";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -51,6 +52,11 @@ function App() {
             path="/myridesPage"
             element={isAuth ? <MyRidesPage></MyRidesPage> : <Navigate to="/" />}
           ></Route>
+           <Route
+            path="/rides/:rideId/ride"
+            element={isAuth ? <RideDetailPage></RideDetailPage> : <Navigate to="/" />}
+          ></Route>
+
         </Routes>
         </ThemeProvider>
       </BrowserRouter>

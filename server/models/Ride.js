@@ -30,6 +30,10 @@ const RideSchema = new mongoose.Schema(
     startPoint: String,
     endPoint: String,
     pickupPoint: String,
+    bookings: {
+      type: Map,
+      of: Boolean,
+    },
   },
   { timestamps: true }
 );

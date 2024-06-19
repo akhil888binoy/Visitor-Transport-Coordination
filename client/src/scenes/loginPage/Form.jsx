@@ -15,6 +15,12 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "../../state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "../../components/FlexBetween";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+
 
 // const registerSchema = yup.object().shape({
 //   firstName: yup
@@ -355,35 +361,86 @@ const Form = () => {
                     },
                   }}
                 />
-                <TextField
-                  label="Role"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.role}
-                  name="role"
-                  error={Boolean(touched.role) && Boolean(errors.role)}
-                  helperText={touched.role && errors.role}
-                  sx={{
-                    gridColumn: "span 4",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main when focused
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "primary.main", // Set the label text color to primary.main
-                    },
-                    "& input": {
-                      color: "white", // Set the text color inside the TextField to white
-                    },
-                  }}
-                />
+ <FormControl component="fieldset">
+        <FormLabel component="legend" id="role">Role</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="role"
+          name="role"
+          value={values.role}
+          onChange={handleChange}
+        >
+          <Box display={"flex"} >
+          <FormControlLabel value="employee" control={<Radio />} label="Employee" />
+          <FormControlLabel value="visitor" control={<Radio />} label="Visitor" />
+          </Box>
+          
+        </RadioGroup>
+      </FormControl>
+
+      {values.role === 'employee' && (
+        <TextField
+          label="Employee Id"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.employeeId}
+          name="employeeId"
+          error={Boolean(touched.employeeId) && Boolean(errors.employeeId)}
+          helperText={touched.employeeId && errors.employeeId}
+          sx={{
+            gridColumn: "span 4",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "primary.main", // Set the border color to primary.main
+              },
+              "&:hover fieldset": {
+                borderColor: "primary.main", // Set the border color to primary.main on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "primary.main", // Set the border color to primary.main when focused
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "primary.main", // Set the label text color to primary.main
+            },
+            "& input": {
+              color: "white", // Set the text color inside the TextField to white
+            },
+          }}
+        />
+      )}
+
+      {values.role === 'visitor' && (
+        <TextField
+          label="Visitor Id"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.visitorId}
+          name="visitorId"
+          error={Boolean(touched.visitorId) && Boolean(errors.visitorId)}
+          helperText={touched.visitorId && errors.visitorId}
+          sx={{
+            gridColumn: "span 4",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "primary.main", // Set the border color to primary.main
+              },
+              "&:hover fieldset": {
+                borderColor: "primary.main", // Set the border color to primary.main on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "primary.main", // Set the border color to primary.main when focused
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "primary.main", // Set the label text color to primary.main
+            },
+            "& input": {
+              color: "white", // Set the text color inside the TextField to white
+            },
+          }}
+        />
+      )}
                 <TextField
                   label="Phone Number"
                   onBlur={handleBlur}
@@ -415,69 +472,7 @@ const Form = () => {
                     },
                   }}
                 />
-                <TextField
-                  label="Employee Id"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.employeeId}
-                  name="employeeId"
-                  error={
-                    Boolean(touched.employeeId) && Boolean(errors.employeeId)
-                  }
-                  helperText={touched.employeeId && errors.employeeId}
-                  sx={{
-                    gridColumn: "span 4",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main when focused
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "primary.main", // Set the label text color to primary.main
-                    },
-                    "& input": {
-                      color: "white", // Set the text color inside the TextField to white
-                    },
-                  }}
-                />
-                <TextField
-                  label="Visitor Id"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.visitorId}
-                  name="visitorId"
-                  error={
-                    Boolean(touched.visitorId) &&
-                    Boolean(errors.visitorId)
-                  }
-                  helperText={touched.visitorId && errors.visitorId}
-                  sx={{
-                    gridColumn: "span 4",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "primary.main", // Set the border color to primary.main when focused
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "primary.main", // Set the label text color to primary.main
-                    },
-                    "& input": {
-                      color: "white", // Set the text color inside the TextField to white
-                    },
-                  }}
-                />
+              
                 <Box
                   gridColumn="span 4"
                   border={`1px solid ${palette.neutral.medium}`}
