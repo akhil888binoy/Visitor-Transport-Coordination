@@ -36,8 +36,13 @@ export const authSlice = createSlice({
       state.rides.rides = updatedRides;
       console.log(updatedRides);
     },
+    deleteRide: (state, action) => {
+      state.rides = state.rides.filter(
+        (ride) => ride._id !== action.payload.rideId
+      );
+    },
   },
 });
-export const { setMode, setLogin, setLogout, setRide, setRides } =
+export const { setMode, setLogin, setLogout, setRide, setRides, deleteRide } =
   authSlice.actions;
 export default authSlice.reducer;

@@ -61,6 +61,22 @@ const RideWidget =({
         });
         const result = await response.json();
         dispatch(setRide({ ride: result }));
+        navigate("/delete");
+
+       
+    };
+
+    const doneRide = async () => {
+        const response = await fetch(`http://localhost:3001/rides/${rideUserId}/${rideId}/delete`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const result = await response.json();
+        dispatch(setRide({ ride: result }));
+        navigate("/done");
 
        
     };
@@ -69,13 +85,6 @@ const RideWidget =({
     return(
         <WidgetWrapper m="2rem 0" >
             <Box display="flex" flexDirection="row" alignItems="center">
-                {userPicturePath && (
-                    <UserImage
-                      image={userPicturePath}
-                    />
-                )}
-           
-
                 <Box display={"block"} justifyContent="space-between" alignItems="center" width="100%" mt={"1rem"} gap={  1 }>
                 {role === "employee" && bookingCount > 0 && (
                     
@@ -97,6 +106,9 @@ const RideWidget =({
                         </Typography>
                     </Box>
                     )}
+               
+                <Box display={"block"}  >
+
                 <Box style={{
                     borderRadius: "2rem",
                     padding: "0.5rem 1rem",
@@ -109,7 +121,13 @@ const RideWidget =({
                 }} >
                     
                     <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                        Pickup Point:{pickupPoint}
+                        Pickup Point : 
+                        {/* <Typography color="white" variant="header" fontSize={"1rem"} ml={"0.3rem"}  >
+                        {pickupPoint}
+                        </Typography> */}
+                        <Typography color={"white"} variant="h6" fontSize={isNonMobileScreens? "1.5rem" : "1.2rem"} textAlign={"center"} fontWeight={"bold"}>
+                      {pickupPoint}
+                  </Typography>
                     </Typography>
                 </Box>
                 <Box style={{
@@ -123,11 +141,34 @@ const RideWidget =({
                     textOverflow: "ellipsis",
                 }} >
                     <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                      Seats : {availableSeats}
+                      End Point : 
+                      <Typography color={"white"} variant="h6" fontSize={isNonMobileScreens? "1.5rem" : "1.2rem"} textAlign={"center"} fontWeight={"bold"}>
+                      {endPoint}
+                  </Typography>
+                    </Typography>
+                </Box>
+                </Box>
+                <Box style={{
+                    borderRadius: "2rem",
+                    padding: "0.5rem 1rem",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                }} >
+                    <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
+                      Seats : 
+                      <Typography ml={"0.5rem"} color={"white"} variant="h7" fontSize={isNonMobileScreens? "1.2rem" : "1.2rem"} textAlign={"center"} fontWeight={"bold"}>
+                       {availableSeats}
+                  </Typography>
                     </Typography>
                 </Box>
                 
-                    <Box style={{
+                    <Box
+                    
+                     style={{
                     borderRadius: "2rem",
                     padding: "0.5rem 1rem",
                     display: "inline-flex",
@@ -137,9 +178,15 @@ const RideWidget =({
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                 }} >
+                    
                     <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                      Vehicle : {vehicleType}
+                      Vehicle : 
                     </Typography>
+                    <Typography ml={"0.5rem"} color={"white"} variant="h9" fontSize={isNonMobileScreens? "1.2rem" : "1.2rem"} textAlign={"center"} fontWeight={"bold"}>
+                      {vehicleType}
+                  </Typography>
+                    
+                    
                 </Box>
                 <Box style={{
                     borderRadius: "2rem",
@@ -151,67 +198,17 @@ const RideWidget =({
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                 }} >
+                    <Box display={isNonMobileScreens? "flex" : "block"}>
                     <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                      Date : {date}
+                      Date : 
                     </Typography>
-                </Box>
-                <Box style={{
-                    borderRadius: "2rem",
-                    padding: "0.5rem 1rem",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                }} >
-                    <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                       Start Point : {startPoint}
-                    </Typography>
-                </Box>
-                <Box style={{
-                    borderRadius: "2rem",
-                    padding: "0.5rem 1rem",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                }} >
-                    <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                       Employee Id: {employeeId}
-                    </Typography>
-                </Box>
-                <Box style={{
-                    borderRadius: "2rem",
-                    padding: "0.5rem 1rem",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                }} >
-                    <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                      Employee Name : {employeename}
-                    </Typography>
+                    <Typography ml={"0.5rem"} color={"white"} variant="h9" fontSize={isNonMobileScreens? "1.2rem" : "1rem"} textAlign={"center"} fontWeight={"bold"}>
+                      {date}
+                  </Typography>
+                    </Box>
+                    
                 </Box>
                 
-                <Box style={{
-                    borderRadius: "2rem",
-                    padding: "0.5rem 1rem",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                }} >
-                    <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                      End Point : {endPoint}
-                    </Typography>
-                </Box>
                 </Box>
             </Box>
             <Box display="flex" justifyContent="space-between" mt="1rem" gap={2}>
@@ -228,7 +225,10 @@ const RideWidget =({
                     textOverflow: "ellipsis",
                 }} >
                     <Typography color="white" variant="subtitle1" ml={"0.3rem"}  >
-                      Departure Time : {departureTime}
+                      Departure Time : 
+                      <Typography color={"white"} variant="h6" fontSize={isNonMobileScreens? "1.2rem" : "1rem"} textAlign={"center"} fontWeight={"bold"}>
+                      {departureTime}
+                  </Typography>
                     </Typography>
                 </Box>
                 { rideUserId === loggedInUserId && (
@@ -247,7 +247,7 @@ const RideWidget =({
                         variant="contained" 
                         success
                     color="success"
-                        onClick={deleteRide}
+                        onClick={doneRide}
                     > Ride Done 
                     </Button>
                     </>

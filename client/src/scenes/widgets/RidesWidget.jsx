@@ -175,16 +175,22 @@ const RidesWidget = ({ userId, isProfile = false , isBookedRides=false }) => {
 
         </Box>
         <Box mt={2}>
+      {/* First row of search inputs */}
+      <Box display="flex" gap={2} mb={2}>
         <Search
           value={filterAvailableSeats}
           onChange={handleFilterAvailableSeatsChange}
           placeholder="Search by Available Seats"
         />
-       <Search
+        <Search
           value={filterStartingPoint}
           onChange={handleFilterStartingPointChange}
           placeholder="Search by Starting Point"
         />
+      </Box>
+      
+      {/* Second row of search inputs */}
+      <Box display="flex" gap={2}>
         <Search
           value={filterEndPoint}
           onChange={handleFilterEndPointChange}
@@ -195,7 +201,8 @@ const RidesWidget = ({ userId, isProfile = false , isBookedRides=false }) => {
           onChange={handleFilterDateChange}
           placeholder="Search by Date"
         />
-        </Box>
+      </Box>
+    </Box>
         
         <Box mt={2}>
         <PickupPoint

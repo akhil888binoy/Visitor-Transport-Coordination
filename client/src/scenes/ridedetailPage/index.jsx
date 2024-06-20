@@ -6,7 +6,7 @@ import Navbar from '../navbar';
 import UserWidget from '../widgets/UserWidget';
 import RidedetailWidget from '../widgets/RidedetailWidget';
 import { setRide } from '../../state'; // Ensure correct import path
-
+import {Typography} from '@mui/material';
 const RideDetailPage = () => {
   const dispatch = useDispatch();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");

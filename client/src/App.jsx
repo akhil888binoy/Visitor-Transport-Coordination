@@ -28,6 +28,8 @@ function App() {
       <CssBaseline />
         <Routes>
           <Route path="/" element={<LoginPage></LoginPage>}></Route>
+          <Route path="/land" element={<AdminDashboard></AdminDashboard>}></Route>
+
           <Route
               path="/home"
               element={isAuth ? <HomePage /> : <Navigate to="/" />}

@@ -18,12 +18,15 @@ import {
   import { useSelector } from "react-redux";
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
+  import {useMediaQuery} from "@mui/material";
   
   const BookedUserWidget = ({ userId}) => {
     const [user, setUser] = useState(null);
     const [editMode, setEditMode] = useState(false); // State to toggle edit mode
     const { palette } = useTheme();
     const navigate = useNavigate();
+    const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+
     const token = useSelector((state) => state.token);
     const Role = useSelector((state) => state.user.role);
     const loggedInUserId = useSelector((state) => state.user._id); // Assuming you have a way to get the logged-in user's ID
@@ -87,7 +90,7 @@ import {
     } = user;
   
     return (
-      <WidgetWrapper width={"30%"} >
+      <WidgetWrapper width={isNonMobileScreens? "90%" : "100%"} >
         {/* FIRST ROW */}
         <FlexBetween
           gap="0.5rem"

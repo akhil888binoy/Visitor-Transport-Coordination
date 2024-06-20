@@ -20,7 +20,7 @@ const Sort = ({ sort, setSort }) => {
           label="Sort By"
           name="sort"
         >
-          <MenuItem value="departureTime">Time</MenuItem>
+          <MenuItem value="departureTime"> Departure Time</MenuItem>
          
           {/* Add other sorting options as MenuItem components */}
         </Select>
@@ -32,8 +32,8 @@ const Sort = ({ sort, setSort }) => {
           label="Order"
           name="order"
         >
-          <MenuItem value="asc">Ascending</MenuItem>
-          <MenuItem value="desc">Descending</MenuItem>
+          <MenuItem value="asc">Morning to Night</MenuItem>
+          <MenuItem value="desc">Night to Morning</MenuItem>
         </Select>
       </FormControl>
     );
